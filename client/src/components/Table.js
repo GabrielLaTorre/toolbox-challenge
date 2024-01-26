@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from 'react-redux'
+import { getFiles } from "../redux/filesSlice"
 import { Table as BootstrapTable } from "react-bootstrap"
 import useAxios from "../hooks/useAxios"
 
 const Table = () => {
-  const [files, setFiles] = useState([])
   const {response, loading, error} = useAxios()
+  const fileState = useSelector((state) => state.files)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (response !== null) {
-      setFiles(response)
+      dispatch(getFiles(response))
     }
 }, [response])
 
@@ -29,7 +32,7 @@ const Table = () => {
         </thead>
         {
             <tbody>
-              {files.map((element) =>
+              {fileState.files.map((element) =>
                 element.lines.map(file => 
                   <tr key={file.hex}>
                     <td>{element.file}</td>
