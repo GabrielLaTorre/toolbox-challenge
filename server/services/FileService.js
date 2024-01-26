@@ -7,7 +7,7 @@ export async function getExternalFiles() {
     const externalFiles = await client.get("/v1/secret/files");
     return externalFiles.data || {};
   } catch (error) {
-    console.log(error)
+    console.log(`[Error getting external files]: ${error.message}`)
   }
 }
 
@@ -16,6 +16,6 @@ export async function getExternalFile(fileName) {
     const externalFile = await client.get(`/v1/secret/file/${fileName}`);
     return externalFile.data || {};
   } catch (error) {
-    console.log(error)
+    console.log(`[Error getting external file]: ${error.message}`)
   }
 }

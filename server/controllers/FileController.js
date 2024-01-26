@@ -35,3 +35,15 @@ export async function getFiles(req, res, next) {
     })
   }
 }
+
+export async function listFiles (req, res, next) {
+  try {
+    const fileList = await getExternalFiles()
+    res.send(fileList)
+  } catch (error) {
+    res.send({
+      status: error.status || 500,
+      message: error.message || "Internal server error"
+    })
+  }
+}
