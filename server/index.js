@@ -9,5 +9,5 @@ app.use(cors())
 app.use('/files', File)
 
 app.listen(4000, () => {
-  console.log("App listen on port 4000")
+  console.log('App listen on port 4000')
 })
