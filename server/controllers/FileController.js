@@ -3,34 +3,51 @@ import { formatFileList } from '../utils/sanitizer.js'
 
 export async function getFiles(req, res, next) {
   try {
+    const { fileName } = req.query
     let downloadedFiles = []
     let formattedFiles = []
-    const fileList = await getExternalFiles()
-    
-    if(!fileList.files) {
-      res.send({
-        status: 200,
-        data: []
-      })
-    }
 
-    for(let i = 0; i < fileList.files.length; i++) {
-      const file = fileList.files[i]
-      const downloadedFile = await getExternalFile(file)
+    if(fileName) {
+      const downloadedFile = await getExternalFile(fileName)
 
       if(downloadedFile) {
         downloadedFiles.push(downloadedFile)
       }
+
+      formattedFiles = formatFileList(downloadedFiles)
+    } else {
+      const fileList = await getExternalFiles()
+      
+      if(!fileList.files) {
+        res.send({
+          status: 200,
+          data: []
+        })
+      }
+  
+      for(let i = 0; i < fileList.files.length; i++) {
+        const file = fileList.files[i]
+        const downloadedFile = await getExternalFile(file)
+  
+        if(downloadedFile) {
+          downloadedFiles.push(downloadedFile)
+        }
+      }
+  
+      formattedFiles = formatFileList(downloadedFiles)
     }
 
-    formattedFiles = formatFileList(downloadedFiles)
-
-
-    res.send(formattedFiles)
+    if(formattedFiles && formattedFiles.length > 0) {
+      res.send(formattedFiles)
+    } else {
+      res.status(404)
+      .json({
+        message: "Files not found"
+      })
+    }
 
   } catch (error) {
-    res.send({
-      status: error.status || 500,
+    res.status(error.status || 500).json({
       message: error.message || "Internal server error"
     })
   }
@@ -41,8 +58,7 @@ export async function listFiles (req, res, next) {
     const fileList = await getExternalFiles()
     res.send(fileList)
   } catch (error) {
-    res.send({
-      status: error.status || 500,
+    res.status(error.status || 500).json({
       message: error.message || "Internal server error"
     })
   }

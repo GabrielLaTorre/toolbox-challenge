@@ -32,4 +32,14 @@ describe("Files API Test", () => {
       expect(lines).to.have.property('number')
       expect(lines).to.have.property('hex')
     })
+
+    it("should get a specific file", async () => {
+      const response = await client.get('/files/data?fileName=test2.csv')
+      const file = response.data[0]
+
+      expect(response.data).to.be.an('array')
+      expect(response.data).to.have.lengthOf(1)
+
+      expect(file).to.be.an('object')
+    })
 })
