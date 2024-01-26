@@ -3,8 +3,8 @@ export function formatFileList (fileList) {
     .map((file) => {
       const cleanFile = file
         .split('\n')
-        .filter((el, index) => index != 0)
-        .filter((el) => el.split(',').length == 4)
+        .filter((el, index) => index !== 0)
+        .filter((el) => el.split(',').length === 4)
         .filter((el) => {
           const fileRow = el.split(',')
           return fileRow.every((el) => !!el)
@@ -28,6 +28,8 @@ export function formatFileList (fileList) {
         })
 
         return formattedFile
+      } else {
+        return null
       }
     })
     .filter(Boolean)
