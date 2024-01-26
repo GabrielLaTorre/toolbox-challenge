@@ -7,7 +7,6 @@ const useAxios = () => {
     const [response, setResponse] = useState(null)
     const [error, setError] = useState('')
     const [loading, setloading] = useState(true)
-
     const fetchData = () => {
         axios
             .get('/files/data')

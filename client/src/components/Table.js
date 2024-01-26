@@ -1,26 +1,11 @@
-import React, { useEffect } from "react"
-import { useDispatch, useSelector } from 'react-redux'
-import { getFiles } from "../redux/filesSlice"
+import React from "react"
+import { useSelector } from 'react-redux'
 import { Table as BootstrapTable } from "react-bootstrap"
-import useAxios from "../hooks/useAxios"
 
 const Table = () => {
-  const {response, loading, error} = useAxios()
   const fileState = useSelector((state) => state.files)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    if (response !== null) {
-      dispatch(getFiles(response))
-    }
-}, [response])
 
   return (
-      loading ? (
-          <p>Loading...</p>
-      ) : error ? (
-          <p>{error.message}</p>
-      ) : (
         <BootstrapTable striped bordered hover>
         <thead>
           <tr>
@@ -46,7 +31,6 @@ const Table = () => {
             </tbody>
         }
       </BootstrapTable>
-      )
   )
 }
 
