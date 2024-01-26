@@ -1,4 +1,4 @@
-function formatFileList(fileList) {
+export function formatFileList(fileList) {
   const formattedList = fileList
   .map((file) => {
     const cleanFile = file
@@ -42,7 +42,3 @@ function formatFileList(fileList) {
 
   return formattedList;
 }
-
-module.exports = {
-  formatFileList,
-};

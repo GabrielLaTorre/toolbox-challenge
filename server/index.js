@@ -1,11 +1,12 @@
-const express = require('express')
+import express from 'express'
+import cors from 'cors'
+import File from './routes/File.js'
+
 const app = express()
-const cors = require('cors')
-const Files = require('./routes/File')
 
 app.use(cors())
 
-app.use('/files', Files)
+app.use('/files', File)
 
 app.listen(4000, () => {
   console.log("App listen on port 4000")

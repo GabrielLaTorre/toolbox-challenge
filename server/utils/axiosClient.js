@@ -1,11 +1,11 @@
-const axios = require('axios').default
+import axios from 'axios'
 let instance 
 
 
-function getClient() {
+export function getClient(baseURL) {
     if(!instance) {
         instance = axios.create({
-            baseURL: 'https://echo-serv.tbxnet.com',
+            baseURL: baseURL || 'https://echo-serv.tbxnet.com',
             timeout: 3000,
             headers: {
                 Authorization: 'Bearer aSuperSecretKey'
@@ -13,8 +13,4 @@ function getClient() {
         })
     }
     return instance
-}
-
-module.exports = {
-    getClient
 }

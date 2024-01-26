@@ -1,11 +1,11 @@
-const FileService = require('../services/FileService')
-const sanitizer = require('../utils/sanitizer')
+import { getExternalFiles, getExternalFile} from '../services/FileService.js'
+import { formatFileList } from '../utils/sanitizer.js'
 
-async function getFiles(req, res, next) {
+export async function getFiles(req, res, next) {
   try {
     let downloadedFiles = []
     let formattedFiles = []
-    const fileList = await FileService.getFiles()
+    const fileList = await getExternalFiles()
     
     if(!fileList.files) {
       res.send({
@@ -16,14 +16,14 @@ async function getFiles(req, res, next) {
 
     for(let i = 0; i < fileList.files.length; i++) {
       const file = fileList.files[i]
-      const downloadedFile = await FileService.getFile(file)
+      const downloadedFile = await getExternalFile(file)
 
       if(downloadedFile) {
         downloadedFiles.push(downloadedFile)
       }
     }
 
-    formattedFiles = sanitizer.formatFileList(downloadedFiles)
+    formattedFiles = formatFileList(downloadedFiles)
 
 
     res.send(formattedFiles)
@@ -34,9 +34,4 @@ async function getFiles(req, res, next) {
       message: error.message || "Internal server error"
     })
   }
-}
-
-
-module.exports = {
-  getFiles
 }

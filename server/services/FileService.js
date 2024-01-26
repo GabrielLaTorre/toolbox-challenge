@@ -1,9 +1,8 @@
-const axiosClient = require("../utils/axiosClient");
-const sanitizer = require("../utils/sanitizer");
+import { getClient } from "../utils/axiosClient.js";
 
-const client = axiosClient.getClient();
+const client = getClient();
 
-async function getFiles() {
+export async function getExternalFiles() {
   try {
     const externalFiles = await client.get("/v1/secret/files");
     return externalFiles.data || {};
@@ -12,7 +11,7 @@ async function getFiles() {
   }
 }
 
-async function getFile(fileName) {
+export async function getExternalFile(fileName) {
   try {
     const externalFile = await client.get(`/v1/secret/file/${fileName}`);
     return externalFile.data || {};
@@ -20,8 +19,3 @@ async function getFile(fileName) {
     console.log(error)
   }
 }
-
-module.exports = {
-  getFiles,
-  getFile
-};
